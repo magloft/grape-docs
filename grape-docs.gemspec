@@ -21,6 +21,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pry", "~> 0.10"
   s.add_development_dependency "rubocop", "~> 0.49"
   s.executables << 'grape-docs'
-  s.files        = Dir["README.md", "lib/**/*"]
+  s.files        = Dir["README.md", "lib/**/*", "assets/**/*"]
   s.require_path = 'lib'
 end
