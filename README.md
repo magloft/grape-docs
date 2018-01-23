@@ -44,11 +44,10 @@ Export documentation of API named <api_name> to <export_path> directory
 ```
 
 ## Result
-![grape-docs-gitbook](https://cdn.magloft.com/marketing/gems/grape-docs/default.png)
-(The above result was generated using the `default` template)
 
-![grape-docs-gitbook](https://cdn.magloft.com/marketing/gems/grape-docs/gitbook.png)
-(The above result was generated using the `gitbook` template)
+| Template `default`                                                       | Template `gitbook`                                                       |
+| :----------------------------------------------------------------------: | :----------------------------------------------------------------------: |
+| ![default](http://cdn.magloft.com/marketing/gems/grape-docs/default.png) | ![gitbook](http://cdn.magloft.com/marketing/gems/grape-docs/gitbook.png) |
 
 ## License
 
