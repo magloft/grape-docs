@@ -3,7 +3,7 @@ module GrapeDocs
     attr_reader :root, :template, :api
 
     def initialize(export_path)
-      @root = Workspace.dir(File.expand_path(export_path)).clean
+      @root = Workspace.dir(File.expand_path(export_path))
 
       # load template
       filename = "#{GrapeDocs.config[:template]}.md.erb"
