@@ -1,0 +1,28 @@
+<% api.endpoints.each do |endpoint| %>
+{% api "<%= endpoint.title %>", method="<%= endpoint.method %>", url="<%= endpoint.path %>" %}
+
+**URL:** <%= endpoint.url %>
+
+<%= endpoint.detail %>
+
+### Parameters:
+
+<%= table(endpoint.params, :name, :type, :desc) do |param|
+  if param[:required]
+    param[:name] = "**#{param[:name]}**"
+  end
+end %>
+<% if endpoint.response %>
+
+### Response:
+
+<%= json(endpoint.response) %>
+<% end %>
+
+{% endapi %}
+<% end %>
+<% if api.children.length > 0 %>
+## APIs
+<% api.children.each do |child| %>
+* [<%= child.title %>](<%= document_url(child)%>)<% end %>
+<% end %>

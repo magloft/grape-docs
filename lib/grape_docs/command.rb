@@ -1,4 +1,3 @@
-require 'pry'
 require 'thor'
 require 'grape_docs'
 require 'grape_docs/version'
@@ -29,6 +28,8 @@ module GrapeDocs
 
       # export grape API
       exporter = Exporter.new(export_path)
+      exporter.export_summary(api)
+      exporter.export_readme(api)
       exporter.export(api)
     end
 

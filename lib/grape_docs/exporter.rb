@@ -7,17 +7,19 @@ module GrapeDocs
 
       # load template
       filename = "#{GrapeDocs.config[:template]}.md.erb"
-      current_dir = Workspace.dir(Dir.pwd)
-      template_file = current_dir.file(filename)
-      unless template_file.exists?
-        spec = Gem::Specification.find_by_name("grape-docs")
-        assets_dir = Workspace::Dir.new(spec.gem_dir).dir("assets")
-        template_file = assets_dir.file(filename)
-        unless template_file.exists?
-          template_file = assets_dir.file("default.md.erb")
-        end
-      end
-      @template = ERB.new(template_file.read, nil, "%")
+      @template = load_template(filename)
+    end
+
+    def export_summary(api)
+      summary_template = load_template("generic/SUMMARY.md.erb")
+      result = summary_template.result(binding).gsub(/\n\n\n/, "\n\n")
+      root.file("SUMMARY.md").write(result)
+    end
+
+    def export_readme(api)
+      readme_template = load_template("generic/README.md.erb")
+      result = readme_template.result(binding).gsub(/\n\n\n/, "\n\n")
+      root.file("README.md").write(result)
     end
 
     def export(api)
@@ -57,6 +59,22 @@ module GrapeDocs
     def document_url(target)
       path = target.path.sub(%r{^/}, '')
       "#{path}.md"
+    end
+
+    private
+
+    def load_template(filename, default_filename = "default.md.erb")
+      current_dir = Workspace.dir(Dir.pwd)
+      template_file = current_dir.file(filename)
+      unless template_file.exists?
+        spec = Gem::Specification.find_by_name("grape-docs")
+        assets_dir = Workspace::Dir.new(spec.gem_dir).dir("assets")
+        template_file = assets_dir.file(filename)
+        unless template_file.exists?
+          template_file = assets_dir.file(default_filename)
+        end
+      end
+      ERB.new(template_file.read, nil, "%")
     end
   end
 end

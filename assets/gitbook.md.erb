@@ -3,27 +3,66 @@
 <%= api.detail %>
 
 <% api.endpoints.each do |endpoint| %>
-{% api "<%= endpoint.title %>", method="<%= endpoint.method %>", url="<%= endpoint.path %>" %}
+{% api-method method="<%= endpoint.method.downcase %>" host="<%= endpoint.host %>" path="<%= endpoint.path %>" %}
 
-**URL:** <%= endpoint.url %>
+{% api-method-summary %}
+<%= endpoint.title %>
+{% endapi-method-summary %}
 
+{% api-method-description %}
 <%= endpoint.detail %>
+{% endapi-method-description %}
 
-### Parameters:
+{% api-method-spec %}
 
-<%= table(endpoint.params, :name, :type, :desc) do |param|
-  if param[:required]
-    param[:name] = "**#{param[:name]}**"
-  end
-end %>
-<% if endpoint.response %>
-### Response:
+{% api-method-request %}
+
+<% if endpoint.path_params.length > 0 %>
+{% api-method-path-parameters %}
+<% endpoint.path_params.each do |param| %>
+{% api-method-parameter name="<%= param[:name] %>" type="string" <% if param[:required] %>required=true <% end %>%}
+<%= param[:desc] %>
+{% endapi-method-parameter %}
+<% end %>
+{% endapi-method-path-parameters %}
+<% end %>
+
+<% if endpoint.query_params.length > 0 %>
+{% api-method-query-parameters %}
+<% endpoint.query_params.each do |param| %>
+{% api-method-parameter name="<%= param[:name] %>" type="string" <% if param[:required] %>required=true <% end %>%}
+<%= param[:desc] %>
+{% endapi-method-parameter %}
+<% end %>
+{% endapi-method-query-parameters %}
+<% end %>
+
+<% if endpoint.body_params.length > 0 %>
+{% api-method-body-parameters %}
+<% endpoint.body_params.each do |param| %>
+{% api-method-parameter name="<%= param[:name] %>" type="string" <% if param[:required] %>required=true <% end %>%}
+<%= param[:desc] %>
+{% endapi-method-parameter %}
+<% end %>
+{% endapi-method-body-parameters %}
+<% end %>
+
+{% endapi-method-request %}
+
+{% api-method-response %}
+
+{% api-method-response-example httpCode=<%= endpoint.status_code %> %}
 
 <%= json(endpoint.response) %>
+{% endapi-method-response-example %}
+
+{% endapi-method-response %}
+
+{% endapi-method-spec %}
+
+{% endapi-method %}
 <% end %>
 
-{% endapi %}
-<% end %>
 <% if api.children.length > 0 %>
 ## APIs
 <% api.children.each do |child| %>

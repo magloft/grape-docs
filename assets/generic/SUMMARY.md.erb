@@ -1,0 +1,8 @@
+# Table of contents
+
+* [<%= api.title %>](README.md)
+
+## <%= api.title %>
+
+<% api.children.each do |endpoint| %>* [<%= endpoint.title %>](<%= endpoint.path %>.md)
+<% end %>

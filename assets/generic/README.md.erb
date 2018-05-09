@@ -1,0 +1,6 @@
+# <%= api.title %>
+
+| **API Documentation** | **Availability** | **Status** |
+| --- | --- | --- |
+<% api.children.each do |endpoint| %>| [<%= api.title %> » <%= endpoint.title %>](<%= endpoint.path %>.md) | Premium Plan | Available |
+<% end %>

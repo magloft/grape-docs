@@ -1,9 +1,10 @@
 module GrapeDocs
   class Api
-    attr_reader :title, :detail, :path, :url, :endpoints, :children
+    attr_reader :title, :detail, :path, :url, :endpoints, :children, :public
 
     def initialize(grape)
       desc = grape.inheritable_setting.namespace[:description]
+      @public = desc[:public] || false
       @title = desc ? desc[:description] : grape.name.titlecase
       @detail = desc ? desc[:detail] : nil
       @path = File.join(grape.inheritable_setting.namespace_stackable[:mount_path])
@@ -12,7 +13,8 @@ module GrapeDocs
       @children = []
       grape.endpoints.each do |endpoint|
         if endpoint.options.key?(:app)
-          @children.push(Api.new(endpoint.options[:app]))
+          api = Api.new(endpoint.options[:app])
+          @children.push(api) if api.public
         elsif endpoint.routes.count > 0
           @endpoints.push(Endpoint.new(self, endpoint))
         end
