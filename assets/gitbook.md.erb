@@ -30,7 +30,7 @@
 <% if endpoint.query_params.length > 0 %>
 {% api-method-query-parameters %}
 <% endpoint.query_params.each do |param| %>
-{% api-method-parameter name="<%= param[:name] %>" type="string" <% if param[:required] %>required=true <% end %>%}
+{% api-method-parameter name="<%= param[:name] %>" type="<%= param[:type] %>" <% if param[:required] %>required=true <% end %>%}
 <%= param[:desc] %>
 {% endapi-method-parameter %}
 <% end %>
@@ -40,7 +40,7 @@
 <% if endpoint.body_params.length > 0 %>
 {% api-method-body-parameters %}
 <% endpoint.body_params.each do |param| %>
-{% api-method-parameter name="<%= param[:name] %>" type="string" <% if param[:required] %>required=true <% end %>%}
+{% api-method-parameter name="<%= param[:name] %>" type="<%= param[:type] %>" <% if param[:required] %>required=true <% end %>%}
 <%= param[:desc] %>
 {% endapi-method-parameter %}
 <% end %>
